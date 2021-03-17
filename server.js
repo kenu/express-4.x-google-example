@@ -2,7 +2,7 @@ require('dotenv').config();
 
 var express = require('express');
 var passport = require('passport');
-var Strategy = require('passport-facebook').Strategy;
+var Strategy = require('passport-github').Strategy;
 
 
 // Configure the Facebook strategy for use by Passport.
@@ -13,11 +13,12 @@ var Strategy = require('passport-facebook').Strategy;
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
 passport.use(new Strategy({
-    clientID: process.env['FACEBOOK_CLIENT_ID'],
-    clientSecret: process.env['FACEBOOK_CLIENT_SECRET'],
+    clientID: process.env['GITHUB_CLIENT_ID'],
+    clientSecret: process.env['GITHUB_CLIENT_SECRET'],
     callbackURL: '/return'
   },
   function(accessToken, refreshToken, profile, cb) {
+    console.log('accessToken', accessToken);
     // In this example, the user's Facebook profile is supplied as the user
     // record.  In a production-quality application, the Facebook profile should
     // be associated with a user record in the application's database, which
@@ -76,11 +77,11 @@ app.get('/login',
     res.render('login');
   });
 
-app.get('/login/facebook',
-  passport.authenticate('facebook'));
+app.get('/login/github',
+  passport.authenticate('github'));
 
-app.get('/return', 
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+app.get('/return',
+  passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
@@ -91,4 +92,9 @@ app.get('/profile',
     res.render('profile', { user: req.user });
   });
 
-app.listen(process.env['PORT'] || 8080);
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+app.listen(process.env['PORT'] || 3000);
