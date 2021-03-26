@@ -16,7 +16,7 @@ passport.use(new Strategy({
     clientID: process.env['GOOGLE_CLIENT_ID'],
     clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
     callbackURL: '/return',
-    scope: 'email'
+    scope: 'profile'
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log('accessToken', accessToken);
@@ -90,6 +90,7 @@ app.get('/return',
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
+    console.log(JSON.stringify(req.user));
     res.render('profile', { user: req.user });
   });
 
