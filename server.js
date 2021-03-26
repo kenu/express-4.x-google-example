@@ -2,7 +2,7 @@ require('dotenv').config();
 
 var express = require('express');
 var passport = require('passport');
-var Strategy = require('passport-github').Strategy;
+var Strategy = require('passport-google-oauth20').Strategy;
 
 
 // Configure the Facebook strategy for use by Passport.
@@ -13,9 +13,10 @@ var Strategy = require('passport-github').Strategy;
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
 passport.use(new Strategy({
-    clientID: process.env['GITHUB_CLIENT_ID'],
-    clientSecret: process.env['GITHUB_CLIENT_SECRET'],
-    callbackURL: '/return'
+    clientID: process.env['GOOGLE_CLIENT_ID'],
+    clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
+    callbackURL: '/return',
+    scope: 'email'
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log('accessToken', accessToken);
@@ -77,11 +78,11 @@ app.get('/login',
     res.render('login');
   });
 
-app.get('/login/github',
-  passport.authenticate('github'));
+app.get('/login/google',
+  passport.authenticate('google'));
 
 app.get('/return',
-  passport.authenticate('github', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
