@@ -12,15 +12,23 @@ dependencies.
 ```bash
 git clone https://github.com/kenu/express-4.x-google-example.git
 cd express-4.x-google-example
-npm install
+npm i
 ```
 
 The example uses environment variables to configure the consumer key and
-consumer secret needed to access [Google's API](https://console.developers.google.com/apis/credentials). Start the server with those
-variables set to the appropriate credentials.
+consumer secret needed to access [Google's API](https://console.developers.google.com/apis/credentials).
+callback url: http://localhost:3000/login/google/return
+Start the server with those variables set to the appropriate credentials.
 
-```bash
-GOOGLE_CLIENT_ID=__GOOGLE_CLIENT_ID__ GOOGLE_CLIENT_SECRET=__GOOGLE_CLIENT_SECRET__ node server.js
+- `.env`
+
+```
+GOOGLE_CLIENT_ID=__GOOGLE_CLIENT_ID__
+GOOGLE_CLIENT_SECRET=__GOOGLE_CLIENT_SECRET__
+```
+
+```
+node server.js
 ```
 
 Open a web browser and navigate to [http://localhost:3000/](http://localhost:3000/)
