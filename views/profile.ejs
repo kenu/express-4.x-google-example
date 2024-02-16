@@ -1,9 +1,26 @@
 <p>
 ID: <%= user.id %><br/>
+<% if (user.username) { %>
+  Username: <%= user.username %><br />
+<% } %>
+<% if (user._json?.kakao_account?.profile.nickname) { %>
+  Name: <%= user._json.kakao_account.profile.nickname %><br/>
+<% } else { %>
 Name: <%= user.displayName %><br/>
+<% } %>
 <% if (user.emails) { %>
 Email: <%= user.emails[0].value %><br/>
 <% } %>
+<% if (user._json?.kakao_account?.profile.thumbnail_image_url) { %>
+  <img src="<%= user._json.kakao_account.profile.thumbnail_image_url %>">
+<% } %>
+<% if (user._json.profile_image) { %>
+  Profile image: <%= user._json.profile_image %><br />
+  <img src="<%= user._json.profile_image %>" alt="<%= user.id %>" style="width: 100px;">
+<% } %>
+<% if (user.photos) { %>
+  Profile image: <%= user.photos[0].value %><br />
+  <img src="<%= user.photos[0].value %>" alt="<%= user.id %>" style="width: 100px;">
+<% } %>
 </p>
-<img src="<%= user.photos[0].value %>">
 <p><a href="/logout">Log Out</a></p>
